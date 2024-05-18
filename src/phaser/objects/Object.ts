@@ -79,8 +79,8 @@ export class Object extends Phaser.GameObjects.Container {
 		const distance = Phaser.Math.Distance.Between(
 			this.x + this.text.width / 2,
 			this.y + this.text.height / 2,
-			pointer.x,
-			pointer.y
+			pointer.worldX,
+			pointer.worldY
 		);
 		if (distance > RAY_FIRE_DISTANCE_THRESHOLD) {
 			this.scene.castRay(
@@ -95,15 +95,15 @@ export class Object extends Phaser.GameObjects.Container {
 		this.arrowSprite.setRotation(
 			Phaser.Math.Angle.BetweenPoints(
 				{ x: this.x + this.text.width / 2, y: this.y + this.text.height / 2 },
-				pointer
+				{ x: pointer.worldX, y: pointer.worldY }
 			)
 		);
 		// scale arrow to point to pointer
 		const distance = Phaser.Math.Distance.Between(
 			this.x + this.text.width / 2,
 			this.y + this.text.height / 2,
-			pointer.x,
-			pointer.y
+			pointer.worldX,
+			pointer.worldY
 		);
 		this.arrowSprite.setAlpha(distance > RAY_FIRE_DISTANCE_THRESHOLD ? 1 : 0.3);
 
