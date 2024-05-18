@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 import LoadingSplash from './scenes/Splash';
 import PreloaderScene from './scenes/PreloaderScene';
-import GameScene from './scenes/GameScene';
+import MainScene from './scenes/MainScene';
 
 export const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.WEBGL,
@@ -12,8 +12,6 @@ export const config: Phaser.Types.Core.GameConfig = {
 		default: 'matter',
 		matter: {
 			autoUpdate: false,
-			debug: true,
-			setBounds: true,
 			gravity: {
 				x: 0,
 				y: 1
@@ -21,11 +19,10 @@ export const config: Phaser.Types.Core.GameConfig = {
 		}
 	},
 	pixelArt: true,
-	// backgroundColor: '#295191',
 	transparent: true,
 	scale: {
 		mode: Phaser.Scale.NONE
 	},
 
-	scene: [LoadingSplash, PreloaderScene, GameScene]
+	scene: [LoadingSplash, PreloaderScene, MainScene]
 };

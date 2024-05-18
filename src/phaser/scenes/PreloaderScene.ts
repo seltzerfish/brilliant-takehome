@@ -6,9 +6,9 @@ export default class PreloaderScene extends Phaser.Scene {
 	preload() {
 		// add stuff to load here 👇
 		const loaders: (() => void)[] = [
-			// () => {
-			// 	this.load.image('sprite_name', 'path/to/sprite_name.png');
-			// }
+			() => {
+				this.load.image('arrow', 'arrow.png');
+			}
 		];
 
 		this.loadAndSendUpdates(loaders);

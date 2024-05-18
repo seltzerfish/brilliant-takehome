@@ -1,29 +1,53 @@
 <script lang="ts">
-	import { fishCount } from '$lib/stores';
-	let count = 0;
+	import {
+		canProceed,
+		clearLevel,
+		currentTextIndex,
+		level,
+		persistentRaysAvailable,
+		showingVirtualObjects
+	} from '$lib/stores';
+	import { fade } from 'svelte/transition';
+	import LevelDialogue from './LevelDialogue.svelte';
+
+	const showVirtualObjectsButton = () => {
+		$showingVirtualObjects = !$showingVirtualObjects;
+		if ($showingVirtualObjects && $level === 2 && !$canProceed) {
+			$canProceed = true;
+			$currentTextIndex++;
+		}
+	};
 </script>
 
-<!-- NOTE: add `pointer-event-auto` to anything you need to be clickable here. -->
-
-<div class="flex justify-between p-4">
-	<p class="p">some sort of hud stuff goes here</p>
-	<a
-		href="https://github.com/seltzerfish/phaser-svelte-template"
-		class="btn variant-filled-primary pointer-events-auto">Get the template 🔗</a
-	>
-</div>
-
-<div class="w-full flex justify-center">
-	<div class="flex flex-col">
-		<h2 class="h2 py-2">fish count: {$fishCount}</h2>
-		<div class="flex flex-col pointer-events-auto">
-			<input type="range" min="0" max="40" bind:value={$fishCount} class=" py-4" />
-			<div class="flex justify-center">
-				<button on:click={() => ($fishCount -= 1)} class="btn-icon variant-filled mx-2">-</button>
-				<button on:click={() => ($fishCount += 1)} class="btn-icon variant-filled mx-2">+</button>
-			</div>
+<div class="w-full h-full relative">
+	{#if $persistentRaysAvailable && $level > 1}
+		<div transition:fade class="absolute top-7 right-7">
+			<button
+				on:pointerdown|preventDefault={showVirtualObjectsButton}
+				class="btn btn-xl pointer-events-auto"
+				class:variant-filled={!$showingVirtualObjects}
+				class:variant-filled-error={$showingVirtualObjects}
+			>
+				{#if $showingVirtualObjects}
+					Hide
+				{:else}
+					Show
+				{/if}
+				virtual objects</button
+			>
 		</div>
+	{/if}
+	{#if $level === 5}
+		<div transition:fade class="absolute top-10 left-7">
+			<button
+				on:pointerdown|preventDefault={() => ($clearLevel = true)}
+				class="btn pointer-events-auto variant-filled-primary"
+			>
+				Clear level</button
+			>
+		</div>
+	{/if}
+	<div class="absolute w-full h-1/4 bottom-6">
+		<LevelDialogue />
 	</div>
 </div>
-
-<div class="fixed bottom-6 right-6" />
