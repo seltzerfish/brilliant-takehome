@@ -11,7 +11,7 @@
 		['Objects in the world are constantly emitting light rays in every direction'],
 		[
 			'Some of those light rays make it to our eyes, allowing us to see things.',
-			'Click and drag the Apple to cast a light ray from the candy to the eye.'
+			'Click and drag the Apple to cast a light ray towards the eye.'
 		],
 		[
 			'Light rays can bounce off of reflective objects, like mirrors.',
