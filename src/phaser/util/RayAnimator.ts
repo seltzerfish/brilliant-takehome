@@ -178,6 +178,7 @@ export class RayAnimator {
 		graphics: Phaser.GameObjects.Graphics,
 		progress: number
 	) {
+		if (rayPath === undefined) return;
 		graphics.clear();
 		const unfoldedPath = this.unfoldedPath(rayPath.segments, progress);
 		for (const ray of unfoldedPath) {
