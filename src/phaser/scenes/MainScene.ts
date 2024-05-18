@@ -4,7 +4,7 @@ import { Eye } from '../objects/Eye';
 import { Mirror } from '../objects/Mirror';
 import { Object } from '../objects/Object';
 import { RayAnimator } from '../util/RayAnimator';
-import { RayEnding, ReflectionCalculator } from '../util/ReflectionCalculator';
+import { ReflectionCalculator } from '../util/ReflectionCalculator';
 import { LEVELS, type Level } from '$lib/levels';
 import { Wall } from '../objects/Wall';
 
@@ -17,6 +17,8 @@ export default class MainScene extends Phaser.Scene {
 	reflectionCalculator!: ReflectionCalculator;
 	rayAnimator!: RayAnimator;
 	level!: Level;
+	readonly smallScreenZoom = 0.8;
+	defaultZoom!: number;
 
 	constructor() {
 		super('main');
@@ -33,6 +35,8 @@ export default class MainScene extends Phaser.Scene {
 		this.rayAnimator = new RayAnimator(this);
 		this.setupSceneRestartListeners(currentLevelIndex);
 
+		this.defaultZoom = this.scale.height < 750 ? this.smallScreenZoom : 1;
+		this.cameras.main.setZoom(this.defaultZoom);
 		this.fadeInCamera();
 
 		showingVirtualObjects.subscribe((showing) => {
@@ -156,16 +160,15 @@ export default class MainScene extends Phaser.Scene {
 			farthestPosition.x,
 			farthestPosition.y
 		);
-
-		const viewWidth = camera.width / 1;
-		const viewHeight = camera.height / 1;
+		const viewWidth = camera.width / this.defaultZoom;
+		const viewHeight = camera.height / this.defaultZoom;
 
 		const scaleX = distanceToFarthest / (viewWidth / 1.25);
 		const scaleY = distanceToFarthest / (viewHeight / 2);
 		const scale = Math.max(scaleX, scaleY);
 
-		if (scale > 1) {
-			camera.zoomTo(1 / scale, 1500);
+		if (scale > this.defaultZoom) {
+			camera.zoomTo(this.defaultZoom / scale, 1500);
 		}
 	}
 
@@ -174,6 +177,6 @@ export default class MainScene extends Phaser.Scene {
 			virtualObject.fadeOut();
 		}
 		this.virtualObjects = [];
-		this.cameras.main.zoomTo(1, 1500);
+		this.cameras.main.zoomTo(this.defaultZoom, 1500);
 	}
 }
