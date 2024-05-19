@@ -43,7 +43,9 @@
 		if ($currentTextIndex < levelText[$level].length - 1) {
 			$currentTextIndex++;
 		} else {
-			$level++;
+			if ($level < 5) {
+				$level++;
+			}
 			$currentTextIndex = 0;
 			$showingVirtualObjects = false;
 		}
